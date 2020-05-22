@@ -1,6 +1,7 @@
 const express = require('express')
 const exphbs = require('express-handlebars')
 const Record = require('./models/record')
+const Category = require('./models/category')
 require('./config/mongoose')
 
 const app = express()

@@ -1,6 +1,8 @@
-const Record = require('../record')
 const db = require('../../config/mongoose')
+const Record = require('../record')
 const recordList = require('./record.json')
+const Category = require('../category')
+const categoryList = require('./category.json')
 
 db.once('open', () => {
   recordList.results.forEach((record) => {
@@ -11,5 +13,13 @@ db.once('open', () => {
       amount: record.amount
     })
   })
-  console.log('Done!')
+
+  categoryList.results.forEach((category) => {
+    Category.create({
+      name: category.name,
+      icon: category.icon
+    })
+  })
+  
+  console.log('done!')
 })

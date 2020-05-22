@@ -19,4 +19,5 @@ const recordSchema = new Schema({
         require: true
     },
 })
+
 module.exports = mongoose.model('Record', recordSchema)
