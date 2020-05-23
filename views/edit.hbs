@@ -1,5 +1,5 @@
+<div class="container mt-5" style="width: 400px;"></div>
 <form action="/records/{{ record._id }}?_method=PUT" method="POST">
-<div class="container mt-5" style="width: 400px;">
 
   <div class="text-center">
     <h3 style="font-weight: bold;">編輯支出紀錄</h3>
@@ -27,16 +27,26 @@
     </select>
   </div>
 
-  <div class="form-group">
+  <div class="form-group mb-4">
     <label>金額 :</label>
     <input required class="form-control" style="display: inline;" type="text" placeholder="NT$" name="amount" value="{{ record.amount }}">
   </div>
 
   <div class="text-center">
-    <button type="submit" class="btn btn-success">儲存</button>
+    <button type="submit" class="btn btn-success">
+      <i class="fas fa-check mr-2"></i>儲存
+    </button>
   </div>
-</div>
+
 </form>
+<form action="/records/{{ record._id }}?_method=DELETE" method="POST" onsubmit="return confirm('確定要刪除這筆紀錄嗎？')">
+  <div class="text-center mt-3">
+    <button class="btn btn-danger" type="submit">
+      <i class="fas fa-trash mr-2"></i>刪除
+    </button>
+  </div>
+</form>
+</div>
 
 <script>
   const dateValue = document.querySelector('.new-date')
