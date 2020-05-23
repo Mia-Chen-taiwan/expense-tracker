@@ -1,6 +1,8 @@
 const express = require('express')
 const exphbs = require('express-handlebars')
 const bodyParser = require('body-parser')
+const methodOverride = require('method-override')
+
 const Record = require('./models/record')
 const Category = require('./models/category')
 require('./config/mongoose')
@@ -12,6 +14,7 @@ app.engine('hbs', exphbs({ defaultLayout: 'main', extname: '.hbs' }))
 app.set('view engine', 'hbs')
 
 app.use(bodyParser.urlencoded({ extended: true }))
+app.use(methodOverride('_method'))
 
 // READ view all records
 app.get('/', (req, res) => {
@@ -66,6 +69,37 @@ app.post('/records/new', (req,res) => {
     date: record.date,
     amount: record.amount
   })
+    .then(() => res.redirect('/'))
+    .catch(error => console.log(error))
+})
+
+// UPDATE edit record
+app.get('/records/:id/edit', (req,res) => {
+  const id = req.params.id
+  return Record.findById(id)
+    .lean()
+    .then((record) => {
+      Category.find()
+        .lean()
+        .then((categories) => {
+            res.render('edit', { record, categories })
+        })
+        .catch(error => console.log(error))
+    })
+    .catch(error => console.log(error))
+})
+
+app.put('/records/:id', (req,res) => {
+  const id = req.params.id
+  const { name, category, date, amount } = req.body
+  return Record.findById(id)
+    .then(record => {
+      record.name = name
+      record.category = category
+      record.date = date
+      record.amount = amount
+      return record.save()
+    })
     .then(() => res.redirect('/'))
     .catch(error => console.log(error))
 })

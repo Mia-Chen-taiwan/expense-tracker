@@ -1,14 +1,15 @@
 <form action="/records/new" method="POST">
-<div class="container">
+<div class="container mt-5" style="width: 400px;">
+
   <div class="text-center">
-    <h3>請輸入你的支出</h3>
-    <p><small>*為必填欄位</small></p>
+    <h3 style="font-weight: bold;">請輸入你的支出</h3>
+    <p style="color: red;"><small>*為必填欄位</small></p>
   </div>
   
 
   <div class="form-group">
     <label>名稱* :</label>
-    <input required class="form-control" style="display: inline;" type="text" name="name">
+    <input required class="form-control" style="display: inline;" type="text" name="name" placeholder="">
   </div>
 
   <div class="form-group">
@@ -18,7 +19,7 @@
       autocomplete="on" required>
   </div>
 
-  <div class="form-group">
+  <div class="form-group mt-3">
     <label>類別* :</label>
     <select class="form-control" name="category">
       {{#each categories}}
@@ -29,9 +30,11 @@
 
   <div class="form-group">
     <label>金額* :</label>
-    <input required class="form-control" style="display: inline;" type="text" name="amount">
+    <input required class="form-control" style="display: inline;" type="text" placeholder="NT$" name="amount">
   </div>
-  <button type="submit" class="btn btn-success">新增支出</button>
+  <div class="text-center">
+    <button type="submit" class="btn btn-success">新增支出</button>
+  </div>
 </div>
 </form>
 
