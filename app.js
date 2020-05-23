@@ -18,24 +18,23 @@ app.use(methodOverride('_method'))
 
 // READ view all records
 app.get('/', (req, res) => {
-
-   //Q: 要怎麼配對icon?
-   //sol-1: 用Record的category去find() Category中對應的icon
-   //Q-1: 怎麼放進each中?
-   //sol: 渲染完再放進去()
     Record.find()
       .lean()
       .then((records) => {
-        // 建立category臨時db
+        // Q: 要怎麼配對icon?
+        // sol: 用Record的category去find() Category中對應的icon
+        // Q: 無法用 forEach() 直接加總提取的所有amount?
+        // sol: 先傳入array再加總
         const categoryList = []
         const amounts = []          
         let totalAmount = 0
+        let filter = '全部支出'
         Category.find()
         .lean()
         .then((categories) => {
           categories.forEach(c => categoryList.push(c))
-          // 加入icon to records
           records.forEach((r) => {
+            // 找出對應icon並加入records
             let c_icon = categoryList.find(c => c.name === r.category)
             r.icon = c_icon.icon
             amounts.push(r.amount)
@@ -44,11 +43,47 @@ app.get('/', (req, res) => {
           for (let i in amounts) {
               totalAmount += amounts[i]
           }
-          res.render('index', { records, totalAmount })
+          res.render('index', { records, totalAmount, categories, filter })
         })
         .catch(error => console.log(error))
       })
       .catch(error => console.log(error))
+})
+
+//READ filtering by category
+app.get('/records/filter',(req, res) => {
+  const category = req.query.filter
+  if (category === "") { 
+    return res.redirect('/')
+  }
+  const categoryList = []
+  const amounts = []          
+  let totalAmount = 0
+  let filter = category
+  Record.find()
+    .lean()
+    .then((r) => {
+      let records = r.filter(r => { 
+        return r.category === category})
+      Category.find()
+        .lean()
+        .then((categories) => {
+          categories.forEach(c => categoryList.push(c))
+          records.forEach((r) => {
+            // 找出對應icon並加入records
+            let c_icon = categoryList.find(c => c.name === category)
+            r.icon = c_icon.icon
+            amounts.push(r.amount)
+          })
+          // 加總所有花費
+          for (let i in amounts) {
+              totalAmount += amounts[i]
+          }
+          res.render('index', { records, totalAmount, categories, filter })
+        })
+        .catch(error => console.log(error))
+    })
+    .catch(error => console.log(error))
 })
 
 // CREATE add new record

@@ -8,6 +8,17 @@
       <a class="btn btn-warning" href="/records/new"><i class="fas fa-plus mr-2"></i>新增支出</a>
     </div>
   </div>
+  <div class="filter-category mt-4" style="width: 130px;">
+    <form name="filter-category" method="GET" action="/records/filter">
+      <select class="form-control" id="filter-category" name="filter" onchange="submit()">
+        <option>-{{ filter }}-</option>
+        {{#each categories}}
+        <option value="{{ this.name }}">{{ this.name }}</option>
+        {{/each}}
+        <option value="">全部支出</option>
+      </select>
+    </form>
+  </div>
   <ul class="list-group">
     <div class="row mt-4">
     {{#each records}}
@@ -23,7 +34,7 @@
           <h4>{{ this.amount }}</h4>
         </div>
         <div class="col-2 d-flex justify-content-around">
-          <a class="btn btn-info mr-2" href="./records/{{ this._id }}/edit"><i class="fas fa-pen"></i></a>
+          <a class="btn btn-info mr-2" href="/records/{{ this._id }}/edit"><i class="fas fa-pen"></i></a>
           <form action="/records/{{ this._id }}?_method=DELETE" method="POST" onsubmit="return confirm('確定要刪除這筆紀錄嗎？')">
             <button class="btn btn-danger" type="submit">
               <i class="fas fa-trash"></i>
