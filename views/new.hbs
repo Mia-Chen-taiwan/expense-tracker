@@ -1,22 +1,42 @@
 <form action="/records/new" method="POST">
-  <h3>請輸入你的支出</h3>
+<div class="container">
+  <div class="text-center">
+    <h3>請輸入你的支出</h3>
+    <p><small>*為必填欄位</small></p>
+  </div>
+  
+
   <div class="form-group">
     <label>名稱* :</label>
     <input required class="form-control" style="display: inline;" type="text" name="name">
   </div>
+
   <div class="form-group">
     <label>日期* :</label>
+    <div id="datepicker" class="input-group date" data-date-format="mm-dd-yyyy">
+    <input type="date" class="form-control new-date" id="date" name="date" placeholder="日期" value="2020-05-20"
+      autocomplete="on" required>
   </div>
+
   <div class="form-group">
     <label>類別* :</label>
     <select class="form-control" name="category">
       {{#each categories}}
-      <option>{{ categories.category }}</option>
+      <option value="{{ this.name }}">{{ this.name }}</option>
       {{/each}}
     </select>
   </div>
+
   <div class="form-group">
     <label>金額* :</label>
     <input required class="form-control" style="display: inline;" type="text" name="amount">
   </div>
+  <button type="submit" class="btn btn-success">新增支出</button>
+</div>
 </form>
+
+<script>
+  const dateValue = document.querySelector('.new-date')
+  const now = new Date()
+  dateValue.value = now.toISOString().slice(0, 10)
+</script>

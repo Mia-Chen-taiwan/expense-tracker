@@ -1,12 +1,12 @@
 <div>
-  <h4>總金額 :</h4>
+  <h3>總金額 :</h3>
   <h1>{{ totalAmount }}</h1>
 </div>
 <ul class="list-group">
   {{#each records}}
   <li class="list-group-item list-group-item-action">
-      <i class="fas fa-home"></i>
-      <h4>{{ this.name }}</h4>
+      
+      <h4><i class="{{ this.icon }} mr-2"></i>{{ this.name }}</h4>
       <p><small class="text-muted">{{ this.date }}</small></p>
       <h4>{{ this.amount }}</h4>
   </li>
