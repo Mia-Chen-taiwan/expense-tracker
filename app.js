@@ -4,12 +4,10 @@ const bodyParser = require('body-parser')
 const methodOverride = require('method-override')
 
 const routes = require('./routes')
-const Record = require('./models/record')
-const Category = require('./models/category')
 require('./config/mongoose')
 
 const app = express()
-const PORT = 3000
+const PORT = process.env.PORT || 3000
 
 app.engine('hbs', exphbs({ defaultLayout: 'main', extname: '.hbs' }))
 app.set('view engine', 'hbs')
